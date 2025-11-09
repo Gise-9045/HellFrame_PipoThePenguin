@@ -493,6 +493,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 417263906499130109, guid: add5ab1cca4ee994d9f396d44d51bc66, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414642638463980404, guid: add5ab1cca4ee994d9f396d44d51bc66, type: 3}
+      propertyPath: fallVel
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414642638463980404, guid: add5ab1cca4ee994d9f396d44d51bc66, type: 3}
+      propertyPath: velocity
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6810488680199772002, guid: add5ab1cca4ee994d9f396d44d51bc66, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -557,6 +569,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Penguin
       objectReference: {fileID: 0}
+    - target: {fileID: 6810488682227807421, guid: add5ab1cca4ee994d9f396d44d51bc66, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 85d323ffa8c7e0c4398dd09fa5e962df, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
