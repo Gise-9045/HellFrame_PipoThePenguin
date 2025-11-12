@@ -11,8 +11,6 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerGroundDetection groundDetection;
 
-    private float playerGravity = 9.81f;
-
     [SerializeField] private float velocity;
 
     [SerializeField] private float jumpForce;
@@ -20,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float actualJumpTimer;
 
     [SerializeField] private float linearDamping;
+
+    private PlayerSlide playerSlide;
 
     private Vector2 axis;
 
@@ -30,6 +30,8 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
 
         groundDetection = GetComponentInChildren<PlayerGroundDetection>();
+
+        playerSlide = GetComponent<PlayerSlide>();
     }
 
     private void OnEnable()
@@ -42,16 +44,13 @@ public class PlayerMovement : MonoBehaviour
     {
         InputManager.Instance.OnMovement -= SetAxis;
         InputManager.Instance.OnJump -= Jump;
-
     }
 
     private void SetAxis(Vector2 input) { axis = input; }
 
     void Update()
     {
-
-
-        if (groundDetection.OnGround())
+        if (groundDetection.OnGround() && !playerSlide.isSliding)
         {
             rb.linearDamping = linearDamping;
         }
@@ -71,10 +70,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Movement();
-
-        //GRAVEDAD
-        //Vector3 gravity = playerGravity * rb.mass * Vector3.up;
-        //rb.AddForce(-gravity, ForceMode.Acceleration);
     }
 
     private void Movement()
@@ -97,13 +92,16 @@ public class PlayerMovement : MonoBehaviour
 
             tr.rotation = Quaternion.Euler(0, tan, 0);
 
-            Vector3 targetXZ = tr.forward.normalized * velocity * axis.magnitude;
+            if(!playerSlide.isSliding)
+            {
+                Vector3 targetXZ = tr.forward.normalized * velocity * axis.magnitude;
 
-            Vector3 target = new Vector3(targetXZ.x, rb.linearVelocity.y, targetXZ.z);
+                Vector3 target = new Vector3(targetXZ.x, rb.linearVelocity.y, targetXZ.z);
 
-            Vector3 deltaV = target - rb.linearVelocity;
+                Vector3 deltaV = target - rb.linearVelocity;
 
-            rb.AddForce(deltaV, ForceMode.VelocityChange);
+                rb.AddForce(deltaV, ForceMode.VelocityChange);
+            }
 
 
             anim.SetBool("Walk", true);
@@ -115,15 +113,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Jump(bool jump)
+    private void Jump(bool button)
     {
-        if (groundDetection.OnGround() && jump)
+        if (groundDetection.OnGround() && button)
         {
             actualJumpTimer = jumpTimer;
             anim.SetTrigger("Jump");
 
         }
-        else if(!jump)
+        else if(!button)
         {
             actualJumpTimer = 0.0f;
         }

@@ -706,6 +706,7 @@ GameObject:
   - component: {fileID: 6810488682227807421}
   - component: {fileID: 6424793523660467168}
   - component: {fileID: 1414642638463980404}
+  - component: {fileID: 9111216957840453265}
   m_Layer: 0
   m_Name: Penguin
   m_TagString: Player
@@ -866,6 +867,22 @@ MonoBehaviour:
   jumpTimer: 0.3
   actualJumpTimer: 0
   linearDamping: 5
+--- !u!114 &9111216957840453265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6810488682227807417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0e6f8dc7168e4f4ab1f58adee8dec5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSliding: 0
+  startSlideVel: 10
+  slideTimer: 0.5
+  actualSlideTimer: 0
 --- !u!1 &7030813419802409942
 GameObject:
   m_ObjectHideFlags: 0
