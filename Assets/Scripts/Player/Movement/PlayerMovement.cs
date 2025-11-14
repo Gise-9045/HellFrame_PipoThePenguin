@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
@@ -21,7 +22,19 @@ public class PlayerMovement : MonoBehaviour
     private PlayerSlide playerSlide;
 
     private Vector2 axis;
+    
+    [Header("Fall")]
+    private bool wasGrounded;
+    private float airTime;
+    private float lastVerticalVelocity;
 
+    [Header("Debug Fall Info")]
+    [SerializeField] private float lastImpactSpeed;
+    [SerializeField] private float lastAirTime;
+    
+    public Action OnJump;
+    public Action OnLand;
+    
     void Start()
     {
         tr = GetComponent<Transform>();
@@ -31,6 +44,11 @@ public class PlayerMovement : MonoBehaviour
         groundDetection = GetComponentInChildren<PlayerGroundDetection>();
 
         playerSlide = GetComponent<PlayerSlide>();
+        wasGrounded = groundDetection.OnGround();
+        airTime = 0f;
+        lastVerticalVelocity = 0f;
+        lastImpactSpeed = 0f;
+        lastAirTime = 0f;
     }
 
     private void OnEnable()
@@ -49,7 +67,24 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (groundDetection.OnGround() && !playerSlide.isSliding)
+        bool isGrounded = groundDetection.OnGround();
+        UpdateDamping(isGrounded);
+    }
+
+    private void FixedUpdate()
+    {
+        bool isGrounded = groundDetection.OnGround();
+
+        UpdateGroundState(isGrounded);
+        UpdateJumpHold();
+        Movement();
+    }
+
+    #region Movement & Physics
+    
+    private void UpdateDamping(bool grounded)
+    {
+        if (grounded && !playerSlide.isSliding)
         {
             rb.linearDamping = linearDamping;
         }
@@ -58,19 +93,6 @@ public class PlayerMovement : MonoBehaviour
             rb.linearDamping = 0.0f;
         }
     }
-
-    private void FixedUpdate()
-    {
-        if (actualJumpTimer > 0)
-        {
-            actualJumpTimer -= Time.fixedDeltaTime;
-
-            rb.AddForce(Vector3.up * jumpForce * Time.fixedDeltaTime, ForceMode.VelocityChange);
-        }
-
-        Movement();
-    }
-
     private void Movement()
     {
         if(axis != Vector2.zero)
@@ -112,17 +134,64 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    #endregion
+    
+    #region Jump
+
+    private void UpdateJumpHold()
+    {
+        if (actualJumpTimer <= 0f)
+            return;
+
+        actualJumpTimer -= Time.fixedDeltaTime;
+        rb.AddForce(Vector3.up * jumpForce * Time.fixedDeltaTime, ForceMode.VelocityChange);
+    }
+    
     private void Jump(bool button)
     {
         if (groundDetection.OnGround() && button)
         {
             actualJumpTimer = jumpTimer;
             anim.SetTrigger("Jump");
-
+            OnJump?.Invoke();
         }
         else if(!button)
         {
             actualJumpTimer = 0.0f;
         }
     }
+    
+    #endregion
+    
+    #region Ground Feedback
+    
+    private void UpdateGroundState(bool grounded)
+    {
+        if (!grounded && wasGrounded)
+        {
+            airTime = 0f;
+
+            // Air Feedback
+        }
+        
+        if (!grounded)
+        {
+            airTime += Time.fixedDeltaTime;
+        }
+        
+        if (grounded && !wasGrounded)
+        {
+            float impactSpeed = Mathf.Abs(lastVerticalVelocity);
+
+            lastImpactSpeed = impactSpeed;
+            lastAirTime = airTime;
+
+            // Landing feedback
+            OnLand?.Invoke();
+        }
+        wasGrounded = grounded;
+        lastVerticalVelocity = rb.linearVelocity.y;
+    }
+    
+    #endregion
 }

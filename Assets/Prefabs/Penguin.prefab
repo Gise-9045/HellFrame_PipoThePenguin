@@ -72,12 +72,12 @@ Transform:
   m_GameObject: {fileID: 503999325747141324}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.4949203, y: -0.7486663, z: -0.41905928}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6172124792064918066}
-  m_Father: {fileID: 6810488682227807416}
+  m_Father: {fileID: 581878694322721643}
   m_LocalEulerAnglesHint: {x: -89.98021, y: 0, z: 0}
 --- !u!1 &811926275579265317
 GameObject:
@@ -210,6 +210,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5818195416085198430}
   m_LocalEulerAnglesHint: {x: 17.132729, y: 2.3814917, z: -131.57544}
+--- !u!1 &4013221079113287522
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 581878694322721643}
+  m_Layer: 0
+  m_Name: Rig Parent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &581878694322721643
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4013221079113287522}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.4949203, y: 0.7486663, z: 0.41905928}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2012320170979996586}
+  m_Father: {fileID: 6810488682227807416}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5596922426336166130
 GameObject:
   m_ObjectHideFlags: 0
@@ -843,7 +875,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2012320170979996586}
+  - {fileID: 581878694322721643}
   - {fileID: 6810488680717511471}
   - {fileID: 6810488680199772003}
   - {fileID: 6810488680395810548}
@@ -983,6 +1015,8 @@ MonoBehaviour:
   jumpTimer: 0.3
   actualJumpTimer: 0
   linearDamping: 5
+  lastImpactSpeed: 0
+  lastAirTime: 0
 --- !u!114 &9111216957840453265
 MonoBehaviour:
   m_ObjectHideFlags: 0

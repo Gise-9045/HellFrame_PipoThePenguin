@@ -1,0 +1,8 @@
+newmtl cakehat01
+Ka 0.972549 0.972549 0.972549
+Kd 0.972549 0.972549 0.972549
+d 1
+Tr 1
+map_Ka cakehat01.png
+map_Kd cakehat01.png
+map_d cakehat01.png
