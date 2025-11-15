@@ -27,6 +27,7 @@ public class PlayerFeedback : MonoBehaviour
 
     private void JumpFeedback()
     {
+        landingFeedbacks?.ResetFeedbacks();
         jumpStartFeedbacks?.PlayFeedbacks();
     }
     

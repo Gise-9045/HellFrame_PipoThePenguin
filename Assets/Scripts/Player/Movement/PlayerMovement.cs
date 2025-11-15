@@ -152,6 +152,7 @@ public class PlayerMovement : MonoBehaviour
         if (groundDetection.OnGround() && button)
         {
             actualJumpTimer = jumpTimer;
+            anim.SetBool("Land", false);
             anim.SetTrigger("Jump");
             OnJump?.Invoke();
         }
@@ -187,6 +188,7 @@ public class PlayerMovement : MonoBehaviour
             lastAirTime = airTime;
 
             // Landing feedback
+            anim.SetBool("Land", true);
             OnLand?.Invoke();
         }
         wasGrounded = grounded;
